@@ -1,8 +1,14 @@
-# 17108A-5-120 維修診斷 PWA — 原型
+# 歐伯維修
+
+17108A-5-120 維修診斷 PWA — 原型
 
 前線技術員用的維修診斷小工具，離線可用，可加入 iPhone 主畫面。內容取材自 Chroma 17108A-5-120 電池化成測試器維修手冊。
 
+> repo 名稱使用英文代稱 `ober-repair`（GitHub repo 名稱不支援中文），對內識別名稱為「歐伯維修」。
+
 ## 線上網址
+
+https://lee910637.github.io/ober-repair/
 
 由 GitHub Pages 提供（見本 repo 設定 → Pages）。iPhone Safari 開啟後，分享 → 加入主畫面，即可離線使用。
 
