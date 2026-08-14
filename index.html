@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>17108A-5-120 維修診斷</title>
+<title>歐伯維修</title>
 <meta name="theme-color" content="#1f4e5f" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="維修診斷" />
+<meta name="apple-mobile-web-app-title" content="歐伯維修" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -17,8 +17,8 @@
 <body>
 <header class="topbar">
   <button id="backBtn" class="icon-btn" hidden aria-label="返回">‹</button>
-  <h1 id="topTitle">17108A-5-120 維修診斷</h1>
-  <span class="model-badge">17108A-5-120</span>
+  <h1 id="topTitle">歐伯維修</h1>
+  <span id="topBadge" class="model-badge" hidden></span>
 </header>
 
 <main id="app" class="screen-container"></main>
@@ -28,11 +28,48 @@
   <button id="installTipClose" class="ghost-btn">知道了</button>
 </div>
 
+<template id="tpl-landing">
+  <section class="landing">
+    <div class="brand">
+      <h2 class="brand-title">歐伯維修</h2>
+      <p class="brand-sub">選擇機種系列，開始查修</p>
+    </div>
+    <div id="seriesList" class="series-list"></div>
+  </section>
+</template>
+
+<template id="tpl-seriescard">
+  <button class="series-card">
+    <span class="series-name"></span>
+    <span class="series-count"></span>
+  </button>
+</template>
+
+<template id="tpl-serieslist">
+  <section class="model-series">
+    <div id="modelList" class="fault-list"></div>
+    <p class="offline-note empty-series-note" hidden>此系列尚無機型資料，敬請期待後續擴充。</p>
+  </section>
+</template>
+
+<template id="tpl-modelcard">
+  <button class="fault-card model-card">
+    <img class="model-card-img" alt="" hidden />
+    <div class="fault-card-top">
+      <span class="fault-name"></span>
+    </div>
+    <p class="fault-desc"></p>
+    <div class="fault-card-bottom">
+      <span class="built-tag"></span>
+    </div>
+  </button>
+</template>
+
 <template id="tpl-home">
   <section class="home">
     <div class="hero">
-      <img src="images/17108A-5-120.jpg" alt="17108A-5-120 電池化成測試器" class="hero-img" />
-      <p class="hero-caption">電池化成測試器 17108A-5-120</p>
+      <img class="hero-img" alt="" hidden />
+      <p class="hero-caption"></p>
     </div>
     <label class="search-box">
       <span class="search-icon" aria-hidden="true">🔍</span>
@@ -66,7 +103,7 @@
       <p>此故障的詳細逐步排查流程尚未建置到本工具中。</p>
       <p>請參考紙本維修手冊對應章節，或聯繫資深維修工程師。</p>
     </div>
-    <button class="primary-btn back-home">返回首頁</button>
+    <button class="primary-btn back-model-home">返回故障清單</button>
   </section>
 </template>
 
@@ -97,7 +134,7 @@
     <div class="trail" aria-label="判斷路徑"></div>
     <div class="conclusion-btns">
       <button class="ghost-btn restart-btn">重新開始此流程</button>
-      <button class="primary-btn back-home">返回首頁</button>
+      <button class="primary-btn back-model-home">返回故障清單</button>
     </div>
   </section>
 </template>

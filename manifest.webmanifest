@@ -1,7 +1,7 @@
 {
-  "name": "17108A-5-120 維修診斷",
-  "short_name": "維修診斷",
-  "description": "Chroma 電池化成測試器 17108A-5-120 前線維修診斷助手",
+  "name": "歐伯維修",
+  "short_name": "歐伯維修",
+  "description": "Chroma 前線維修診斷助手，涵蓋 A/N/E 系列機種",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
