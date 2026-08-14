@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>17108A-5-120 維修診斷</title>
+<meta name="theme-color" content="#1f4e5f" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="維修診斷" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <button id="backBtn" class="icon-btn" hidden aria-label="返回">‹</button>
+  <h1 id="topTitle">17108A-5-120 維修診斷</h1>
+  <span class="model-badge">17108A-5-120</span>
+</header>
+
+<main id="app" class="screen-container"></main>
+
+<div id="installTip" class="install-tip" hidden>
+  <p>將此工具加入主畫面，離線也能查修：點下方 <strong>分享</strong> 按鈕 → 「加入主畫面」。</p>
+  <button id="installTipClose" class="ghost-btn">知道了</button>
+</div>
+
+<template id="tpl-home">
+  <section class="home">
+    <div class="hero">
+      <img src="images/17108A-5-120.jpg" alt="17108A-5-120 電池化成測試器" class="hero-img" />
+      <p class="hero-caption">電池化成測試器 17108A-5-120</p>
+    </div>
+    <label class="search-box">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input id="searchInput" type="search" placeholder="輸入異常現象關鍵字，例如：無電壓、風扇、OCP" />
+    </label>
+    <div id="faultList" class="fault-list"></div>
+    <p class="offline-note">首次載入後，本工具可離線使用。</p>
+  </section>
+</template>
+
+<template id="tpl-faultcard">
+  <button class="fault-card">
+    <div class="fault-card-top">
+      <span class="fault-name"></span>
+      <span class="priority-badge"></span>
+    </div>
+    <p class="fault-desc"></p>
+    <div class="fault-card-bottom">
+      <span class="category-tag"></span>
+      <span class="built-tag"></span>
+    </div>
+  </button>
+</template>
+
+<template id="tpl-faultinfo">
+  <section class="fault-info">
+    <h2 class="fi-name"></h2>
+    <p class="fi-desc"></p>
+    <p class="fi-section"></p>
+    <div class="not-built-box">
+      <p>此故障的詳細逐步排查流程尚未建置到本工具中。</p>
+      <p>請參考紙本維修手冊對應章節，或聯繫資深維修工程師。</p>
+    </div>
+    <button class="primary-btn back-home">返回首頁</button>
+  </section>
+</template>
+
+<template id="tpl-wizard">
+  <section class="wizard">
+    <div class="trail" aria-label="已走過的步驟"></div>
+    <div class="step-card">
+      <div class="check-box" hidden>
+        <div class="check-row"><span class="check-label">檢查部位</span><span class="check-location"></span></div>
+        <div class="check-row"><span class="check-label">檢查方法</span><span class="check-method"></span></div>
+        <div class="check-row"><span class="check-label">正常條件</span><span class="check-normal"></span></div>
+      </div>
+      <p class="prompt"></p>
+    </div>
+    <div class="options"></div>
+  </section>
+</template>
+
+<template id="tpl-conclusion">
+  <section class="conclusion">
+    <div class="conclusion-icon">✔</div>
+    <h2>診斷結論</h2>
+    <p class="conclusion-text"></p>
+    <div class="action-box">
+      <h3>建議處置</h3>
+      <p class="action-text"></p>
+    </div>
+    <div class="trail" aria-label="判斷路徑"></div>
+    <div class="conclusion-btns">
+      <button class="ghost-btn restart-btn">重新開始此流程</button>
+      <button class="primary-btn back-home">返回首頁</button>
+    </div>
+  </section>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>

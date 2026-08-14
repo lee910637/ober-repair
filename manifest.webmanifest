@@ -1,0 +1,17 @@
+{
+  "name": "17108A-5-120 維修診斷",
+  "short_name": "維修診斷",
+  "description": "Chroma 電池化成測試器 17108A-5-120 前線維修診斷助手",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f2a33",
+  "theme_color": "#1f4e5f",
+  "lang": "zh-Hant-TW",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

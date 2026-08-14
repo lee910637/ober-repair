@@ -1,0 +1,832 @@
+{
+  "faults": [
+    {
+      "id": "F_CALI",
+      "name": "Calibration Error 校正值異常",
+      "keywords": [
+        "校正值異常",
+        "Slope",
+        "Calibration Out of Range"
+      ],
+      "category": "校正",
+      "priority": "高",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.8節",
+      "description": "校正值 Slope>20%，判定為 Calibration Out of Range。"
+    },
+    {
+      "id": "F_OCP",
+      "name": "OCP／OVP 過電流過電壓保護",
+      "keywords": [
+        "OCP",
+        "OVP",
+        "過電流",
+        "過電壓",
+        "Input Voltage Protection"
+      ],
+      "category": "保護",
+      "priority": "高",
+      "built": true,
+      "startNode": "OCP_1",
+      "manualSection": "4.1節",
+      "description": "Iout>134A 或 Vout>5.8V 或 Vin>14V 時觸發。"
+    },
+    {
+      "id": "F_OTP",
+      "name": "OTP 單機環溫過溫保護",
+      "keywords": [
+        "OTP",
+        "過溫",
+        "溫度異常"
+      ],
+      "category": "溫度",
+      "priority": "高",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.2節",
+      "description": "單機環溫 >100°C 觸發過溫保護。"
+    },
+    {
+      "id": "F_CONTACT",
+      "name": "接觸錯誤／感應異常保護",
+      "keywords": [
+        "接觸錯誤",
+        "感應異常",
+        "Vmi",
+        "Vmo"
+      ],
+      "category": "量測",
+      "priority": "高",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.3節",
+      "description": "ABS(Vmi-Vmo)/I 超出設定值，Sense/Drive 線路或量測電路異常。"
+    },
+    {
+      "id": "F_FAN",
+      "name": "FAN 風扇異常保護",
+      "keywords": [
+        "Fan",
+        "風扇",
+        "異常",
+        "鎖轉",
+        "轉速"
+      ],
+      "category": "散熱",
+      "priority": "中",
+      "built": true,
+      "startNode": "FAN_1",
+      "manualSection": "4.5節",
+      "description": "風扇電源異常或風扇本體損壞造成 Fan Lock 保護。"
+    },
+    {
+      "id": "F_NET",
+      "name": "網路通訊異常",
+      "keywords": [
+        "網路",
+        "LAN",
+        "IP",
+        "通訊異常"
+      ],
+      "category": "通訊",
+      "priority": "中",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.4節",
+      "description": "PC 與單機之間 LAN 通訊異常，無法連線。"
+    },
+    {
+      "id": "F_SYSCFG",
+      "name": "System Config Error",
+      "keywords": [
+        "System Config",
+        "模組錯誤",
+        "12V",
+        "13V"
+      ],
+      "category": "控制",
+      "priority": "中",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.6節",
+      "description": "前級轉換器(AC-DC)異常或通道數/Slot數設定錯誤。"
+    },
+    {
+      "id": "F_ADC",
+      "name": "ADC Error 讀值異常",
+      "keywords": [
+        "ADC",
+        "讀值異常",
+        "固定0V",
+        "固定0A"
+      ],
+      "category": "量測",
+      "priority": "高",
+      "built": false,
+      "startNode": null,
+      "manualSection": "4.7節",
+      "description": "電壓/電流讀值固定不跳動，疑似 ADC 或 A 板異常。"
+    },
+    {
+      "id": "F_NOOUTPUT",
+      "name": "無輸出電壓，DVM無讀值",
+      "keywords": [
+        "無輸出電壓",
+        "DVM無讀值",
+        "CV4V 0V 0V"
+      ],
+      "category": "校驗證查修",
+      "priority": "高",
+      "built": true,
+      "startNode": "NOV_1",
+      "manualSection": "5.2.1節",
+      "description": "執行 8000 程式校驗證時，設定電壓後完全無輸出，內部讀值與 DVM 實測值皆為 0V。"
+    }
+  ],
+  "nodes": {
+    "OCP_1": {
+      "id": "OCP_1",
+      "faultId": "F_OCP",
+      "prompt": "如尚未啟動電源即出現 OCP，先量測 OCP/OVP/Input_OVP/比較器/Ref voltage 週邊元件，確認是否都在合格範圍內。",
+      "check": {
+        "location": "OCP/OVP/Input_OVP/比較器/Ref voltage 週邊元件",
+        "method": "使用三用電錶量測 R726/R868、R724/R866、C710/C850、R744/R888、R745/R887、C708/C848 等週邊電阻電容",
+        "normal": "R726/R868=75KΩ±1%; R724/R866=100KΩ±1%; C710/C850=0.1uF±10%; R744/R888=10KΩ±1%; R745/R887=10KΩ±1%; C708/C848=1uF±10%",
+        "unit": "Ω/uF"
+      },
+      "options": [
+        {
+          "label": "有元件數值超出合格範圍",
+          "next": {
+            "type": "end",
+            "conclusion": "更換超出公差的週邊元件（對照規格表）",
+            "action": "依規格表更換異常的電阻/電容"
+          }
+        },
+        {
+          "label": "全部元件數值正常",
+          "next": {
+            "type": "node",
+            "id": "OCP_2"
+          }
+        }
+      ]
+    },
+    "OCP_2": {
+      "id": "OCP_2",
+      "faultId": "F_OCP",
+      "prompt": "量測 U602 Pin5~Pin7 電壓。正常：Pin6=3.33V、Pin5=2.5V、Pin7=0V；OCP觸發時：Pin6≈0.7V、Pin5=2.5V、Pin7=3.33V。量測結果符合上述哪一種？",
+      "check": {
+        "location": "U602 Pin5~Pin7",
+        "method": "以 DMM 量測 U602 Pin5、Pin6、Pin7 電壓",
+        "normal": "正常: Pin6=3.33V,Pin5=2.5V,Pin7=0V；OCP觸發: Pin6≈0.7V,Pin5=2.5V,Pin7=3.33V",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "符合正常或OCP觸發任一種模式",
+          "next": {
+            "type": "node",
+            "id": "OCP_4"
+          }
+        },
+        {
+          "label": "都不符合(讀值異常/中間值)",
+          "next": {
+            "type": "node",
+            "id": "OCP_3"
+          }
+        }
+      ]
+    },
+    "OCP_3": {
+      "id": "OCP_3",
+      "faultId": "F_OCP",
+      "prompt": "量 R603 右邊是否為10V；R605 右邊是否為5V。",
+      "check": {
+        "location": "R603 / R605",
+        "method": "量測 R603 右邊電壓、R605 右邊電壓",
+        "normal": "R603右邊應為10V；R605右邊應為5V",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "皆正常(10V/5V)",
+          "next": {
+            "type": "end",
+            "conclusion": "邏輯IC(LM393)異常，造成Pin1輸出異常",
+            "action": "更換 LM393"
+          }
+        },
+        {
+          "label": "任一不正常",
+          "next": {
+            "type": "end",
+            "conclusion": "PCB layout斷路",
+            "action": "依手冊跳線：10V點跳線到C611上方、5V點跳線到R619(下)、Pin5跳線到C540"
+          }
+        }
+      ]
+    },
+    "OCP_4": {
+      "id": "OCP_4",
+      "faultId": "F_OCP",
+      "prompt": "量測 D602、D607、D608(input_OCP_bar / Fault_02)。正常應為HIGH，<1V視為LOW(異常)。D608對應Input OVP路徑，D602/D607對應OCP/OVP路徑。",
+      "check": {
+        "location": "D602 / D607 / D608 (input_OCP_bar / Fault_02)",
+        "method": "以 DMM 量測二極體兩端電壓",
+        "normal": "正常應為 HIGH；電壓 <1V 視為 LOW(異常)",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "D608 為 LOW",
+          "next": {
+            "type": "node",
+            "id": "OCP_5"
+          }
+        },
+        {
+          "label": "D602 或 D607 為 LOW",
+          "next": {
+            "type": "node",
+            "id": "OCP_6"
+          }
+        },
+        {
+          "label": "皆為 HIGH(正常)",
+          "next": {
+            "type": "end",
+            "conclusion": "保護迴路偵測本身正常，異常另有原因",
+            "action": "建議會同資深工程師覆核控制IC與命令路徑，必要時更換數位板"
+          }
+        }
+      ]
+    },
+    "OCP_5": {
+      "id": "OCP_5",
+      "faultId": "F_OCP",
+      "prompt": "D608為LOW，代表可能跳 Input OVP。請先回想：OCP是否只在『放電』時才觸發？並量測 U602 Pin1 對 Pin4(GND) 是否為HIGH，以及 R620 阻抗是否為18KΩ。",
+      "check": {
+        "location": "U602 Pin1 對 Pin4(GND) / R620",
+        "method": "量測 U602 Pin1 對 GND 電壓；量測 R620 阻抗",
+        "normal": "Pin1為HIGH代表Input OVP；R620應為15KΩ±0.1%",
+        "unit": "V/Ω"
+      },
+      "options": [
+        {
+          "label": "放電時才觸發 且 Pin1為HIGH",
+          "next": {
+            "type": "end",
+            "conclusion": "確認為 Input OVP",
+            "action": "檢查R620是否18KΩ±0.1%，阻抗異常則更換R620；阻抗正常則為Input OVP偵測電路其他元件異常，需逐一排查"
+          }
+        },
+        {
+          "label": "非上述情況",
+          "next": {
+            "type": "end",
+            "conclusion": "非典型Input OVP案例",
+            "action": "建議會同資深工程師覆核電路，勿逕自更換零件"
+          }
+        }
+      ]
+    },
+    "OCP_6": {
+      "id": "OCP_6",
+      "faultId": "F_OCP",
+      "prompt": "D602或D607為LOW，量測 R816下(或R791下) 是否同為LOW。",
+      "check": {
+        "location": "R816 下方 / R791 下方",
+        "method": "量測 R816(或R791) 下方電壓",
+        "normal": "正常應為 HIGH，LOW 代表控制IC(8450)跳OCP/OV",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "R816(或R791)下方為LOW",
+          "next": {
+            "type": "node",
+            "id": "OCP_7"
+          }
+        },
+        {
+          "label": "為HIGH(不同)",
+          "next": {
+            "type": "end",
+            "conclusion": "控制IC(8450)未跳保護",
+            "action": "建議另尋訊號路徑異常點，可能為量測電路本身異常"
+          }
+        }
+      ]
+    },
+    "OCP_7": {
+      "id": "OCP_7",
+      "faultId": "F_OCP",
+      "prompt": "R816(或R791)為LOW，代表控制IC 8450 跳 OCP/OV。量測 C849(OVP)/C850(OCP)（或另一相 C709(OVP)/C710(OCP)）電壓是否超過1.25V。",
+      "check": {
+        "location": "C849(OVP) / C850(OCP) / C709(OVP) / C710(OCP)",
+        "method": "量測電容電壓",
+        "normal": "電壓 >1.25V 代表該相觸發對應保護",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "C849(或C709) 超過1.25V (OVP)",
+          "next": {
+            "type": "node",
+            "id": "OCP_8"
+          }
+        },
+        {
+          "label": "C850(或C710) 超過1.25V (OCP)",
+          "next": {
+            "type": "end",
+            "conclusion": "該相觸發 OCP 過電流保護",
+            "action": "檢查功率級電流迴路與MOSFET/電流取樣電路，比對更換相關功率元件"
+          }
+        }
+      ]
+    },
+    "OCP_8": {
+      "id": "OCP_8",
+      "faultId": "F_OCP",
+      "prompt": "確認為OVP，需量測實際觸發電壓：C849超過1.25V則量R890與R891下方壓差；C709超過1.25V則量R747與R748下方壓差，此壓差應等於電池電壓。",
+      "check": {
+        "location": "R890/R891 下方壓差 / R747/R748 下方壓差",
+        "method": "量測電阻下方壓差",
+        "normal": "應等於電池電壓",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "壓差 = 電池電壓(符合預期)",
+          "next": {
+            "type": "end",
+            "conclusion": "該相觸發 OVP 過電壓保護，屬正常保護動作",
+            "action": "請確認電池/測試條件是否超出設備輸出電壓上限(5.8V)，非硬體故障"
+          }
+        },
+        {
+          "label": "壓差明顯異常(不等於電池電壓)",
+          "next": {
+            "type": "end",
+            "conclusion": "電壓量測迴路(Vmo)異常",
+            "action": "更換 U702/U805 或相關量測迴路元件"
+          }
+        }
+      ]
+    },
+    "FAN_1": {
+      "id": "FAN_1",
+      "faultId": "F_FAN",
+      "prompt": "檢查風扇是否有異物或積塵造成堵轉。",
+      "check": {
+        "location": "風扇葉片/入風口",
+        "method": "目視+手動檢查是否有異物、積塵造成堵轉",
+        "normal": "無異物、無堵轉",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有異物/堵轉",
+          "next": {
+            "type": "end",
+            "conclusion": "風扇堵轉",
+            "action": "清除異物/積塵後重新測試"
+          }
+        },
+        {
+          "label": "無異物，風扇順暢",
+          "next": {
+            "type": "node",
+            "id": "FAN_2"
+          }
+        }
+      ]
+    },
+    "FAN_2": {
+      "id": "FAN_2",
+      "faultId": "F_FAN",
+      "prompt": "確認無堵轉後，通電檢查風扇本體是否損壞（完全不轉/有異音/轉速明顯不足）。",
+      "check": {
+        "location": "風扇本體",
+        "method": "通電測試風扇是否正常運轉(有無異音、轉速是否明顯不足)",
+        "normal": "運轉順暢、無異音",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "風扇本體損壞",
+          "next": {
+            "type": "end",
+            "conclusion": "風扇本體損壞",
+            "action": "更換風扇"
+          }
+        },
+        {
+          "label": "風扇本體正常",
+          "next": {
+            "type": "node",
+            "id": "FAN_3"
+          }
+        }
+      ]
+    },
+    "FAN_3": {
+      "id": "FAN_3",
+      "faultId": "F_FAN",
+      "prompt": "檢查風扇電源迴路（S板→FT板→風扇）是否正常供電。",
+      "check": {
+        "location": "風扇線材(FT板) / 風扇電源(S板→FT板)",
+        "method": "量測風扇電源迴路電壓",
+        "normal": "供電正常，無斷路或電壓異常",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "電源異常",
+          "next": {
+            "type": "end",
+            "conclusion": "S板電源異常導致風扇無法正常運轉",
+            "action": "更換S板後重新開機確認異常是否解除；若未解除，接續排查FT板"
+          }
+        },
+        {
+          "label": "電源正常",
+          "next": {
+            "type": "end",
+            "conclusion": "風扇本體與線路皆正常，但面板仍顯示異常",
+            "action": "判斷為FT板電路異常，更換FT板後開機確認"
+          }
+        }
+      ]
+    },
+    "NOV_1": {
+      "id": "NOV_1",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "不良現象：無輸出電壓，DVM無讀值。查修方向：確認 MOS Relay 前是否有電壓。",
+      "check": {
+        "location": "MOS Relay 前端",
+        "method": "量測 MOS Relay 前端是否有電壓",
+        "normal": "依機種規格應有電壓",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "有電壓(猜測MOS Relay未導通)",
+          "next": {
+            "type": "node",
+            "id": "NOV_1B"
+          }
+        },
+        {
+          "label": "無電壓",
+          "next": {
+            "type": "node",
+            "id": "NOV_2"
+          }
+        }
+      ]
+    },
+    "NOV_1B": {
+      "id": "NOV_1B",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "確認 MOS Relay_GS 腳電壓是否正常。",
+      "check": {
+        "location": "MOS Relay G-S 腳",
+        "method": "量測 MOS Relay Gate-Source 電壓",
+        "normal": "依驅動規格，正常應能驅動導通",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "正常",
+          "next": {
+            "type": "end",
+            "conclusion": "MOS Relay 零件損壞",
+            "action": "更換 MOS Relay"
+          }
+        },
+        {
+          "label": "異常",
+          "next": {
+            "type": "end",
+            "conclusion": "驅動電路(U101/U102)異常",
+            "action": "確認 U101/U102 PIN1、PIN3 是否有電壓，異常則更換相關驅動零件"
+          }
+        }
+      ]
+    },
+    "NOV_2": {
+      "id": "NOV_2",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "MOS Relay前無電壓。確認 MOS_GS 腳是否有 PWM 波形。",
+      "check": {
+        "location": "MOS G-S 腳",
+        "method": "以示波器量測 MOS Gate-Source 是否有 PWM 波形",
+        "normal": "應有連續 PWM 波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有 PWM 波形",
+          "next": {
+            "type": "end",
+            "conclusion": "MOS 可能損壞",
+            "action": "更換 MOS"
+          }
+        },
+        {
+          "label": "無 PWM 波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_3A"
+          }
+        }
+      ]
+    },
+    "NOV_3A": {
+      "id": "NOV_3A",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "確認 U708/U803 PIN15 與 PIN10 是否有 PWM 波形。",
+      "check": {
+        "location": "U708/U803 PIN15 & PIN10",
+        "method": "示波器量測 PWM 波形",
+        "normal": "應有 PWM 波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有波形",
+          "next": {
+            "type": "end",
+            "conclusion": "確認MOS背面(功率級)零件是否異常",
+            "action": "進一步量測MOS周邊被動元件，異常則更換"
+          }
+        },
+        {
+          "label": "無波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_3B"
+          }
+        }
+      ]
+    },
+    "NOV_3B": {
+      "id": "NOV_3B",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "確認 U708/U803 PIN1 是否有 PWM 波形。",
+      "check": {
+        "location": "U708/U803 PIN1",
+        "method": "示波器量測 PWM 波形",
+        "normal": "應有 PWM 波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有波形",
+          "next": {
+            "type": "end",
+            "conclusion": "U708/U803本身可能異常",
+            "action": "比對各腳位電壓及波形，異常則更換 U708/U803"
+          }
+        },
+        {
+          "label": "無波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_4A"
+          }
+        }
+      ]
+    },
+    "NOV_4A": {
+      "id": "NOV_4A",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "往 U707/U802 查修：確認 PIN6 是否有波形。",
+      "check": {
+        "location": "U707/U802 PIN6",
+        "method": "示波器量測波形",
+        "normal": "應有波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有波形",
+          "next": {
+            "type": "end",
+            "conclusion": "R757、R824 電阻可能異常",
+            "action": "量測後異常則更換"
+          }
+        },
+        {
+          "label": "無波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_4B"
+          }
+        }
+      ]
+    },
+    "NOV_4B": {
+      "id": "NOV_4B",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "確認 U707/U802 PIN5 是否有波形。",
+      "check": {
+        "location": "U707/U802 PIN5",
+        "method": "示波器量測波形",
+        "normal": "應有波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有波形",
+          "next": {
+            "type": "end",
+            "conclusion": "附近零件或U707/U802本身可能異常",
+            "action": "比對各腳位電壓與波形，異常則更換相關零件"
+          }
+        },
+        {
+          "label": "無波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_5A"
+          }
+        }
+      ]
+    },
+    "NOV_5A": {
+      "id": "NOV_5A",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "往 U706/U801 查修：確認 PIN2 是否有波形。",
+      "check": {
+        "location": "U706/U801 PIN2",
+        "method": "示波器量測波形",
+        "normal": "應有波形",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "有波形",
+          "next": {
+            "type": "end",
+            "conclusion": "量測 U706_PIN2 與 U707_PIN5 是否導通",
+            "action": "不導通表示PIN2到PIN5路徑斷路，需檢修該連接"
+          }
+        },
+        {
+          "label": "無波形",
+          "next": {
+            "type": "node",
+            "id": "NOV_5B"
+          }
+        }
+      ]
+    },
+    "NOV_5B": {
+      "id": "NOV_5B",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "確認 U706/U801 PIN5 是否有5V。",
+      "check": {
+        "location": "U706/U801 PIN5",
+        "method": "DMM量測電壓",
+        "normal": "應為 5V",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "無5V",
+          "next": {
+            "type": "end",
+            "conclusion": "供電異常",
+            "action": "往 U315/U314 查修，確認輸出是否正常，異常則更換"
+          }
+        },
+        {
+          "label": "有5V(正常)",
+          "next": {
+            "type": "node",
+            "id": "NOV_5C"
+          }
+        }
+      ]
+    },
+    "NOV_5C": {
+      "id": "NOV_5C",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "比對 PIN9 電壓(決定輸出電壓大小)、確認 D703/D803 負端電壓、確認 U705/U804 G腳電壓是否為5V。",
+      "check": {
+        "location": "PIN9 / D703&D803負端 / U705&U804 G腳",
+        "method": "DMM量測各點電壓",
+        "normal": "U705/U804 G腳應為 5V",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "G腳電壓非5V",
+          "next": {
+            "type": "end",
+            "conclusion": "供電或訊號路徑異常",
+            "action": "往 U316 查修，並同時檢查 U702/U805，異常則更換"
+          }
+        },
+        {
+          "label": "G腳電壓為5V(正常)",
+          "next": {
+            "type": "node",
+            "id": "NOV_6"
+          }
+        }
+      ]
+    },
+    "NOV_6": {
+      "id": "NOV_6",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "往 U702/U805 查修：確認 PIN39、PIN40、PIN44、PIN49、PIN60 電壓，以及 C766 電壓是否正常。",
+      "check": {
+        "location": "U702/U805 PIN39/40/44/49/60、C766",
+        "method": "DMM量測各腳位電壓",
+        "normal": "依機種規格，各點電壓應正常",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "有任一電壓異常",
+          "next": {
+            "type": "node",
+            "id": "NOV_7"
+          }
+        },
+        {
+          "label": "電壓皆正常",
+          "next": {
+            "type": "end",
+            "conclusion": "U702/U805本身工作正常但仍無輸出",
+            "action": "進一步比對驅動時序，或將 U702/U805 整體模組送修"
+          }
+        }
+      ]
+    },
+    "NOV_7": {
+      "id": "NOV_7",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "往 U1001 查修：確認 PIN1 電壓與 R1007 電壓是否正常。",
+      "check": {
+        "location": "U1001 PIN1 / R1007",
+        "method": "DMM量測電壓",
+        "normal": "依機種規格應正常",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "異常",
+          "next": {
+            "type": "end",
+            "conclusion": "U1001周邊電路異常",
+            "action": "往 U301 查修，確認各腳位電壓、波形，異常則更換U301"
+          }
+        },
+        {
+          "label": "皆正常",
+          "next": {
+            "type": "node",
+            "id": "NOV_8"
+          }
+        }
+      ]
+    },
+    "NOV_8": {
+      "id": "NOV_8",
+      "faultId": "F_NOOUTPUT",
+      "prompt": "往 U322 查修：確認 U306、U307、U312 電壓是否正常。",
+      "check": {
+        "location": "U306 / U307 / U312",
+        "method": "DMM量測各IC電壓",
+        "normal": "依機種規格應正常",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "有異常",
+          "next": {
+            "type": "end",
+            "conclusion": "U306/U307/U312其中之一異常",
+            "action": "更換異常的該顆IC"
+          }
+        },
+        {
+          "label": "皆無異常",
+          "next": {
+            "type": "end",
+            "conclusion": "往 U319/U320/U321 查修",
+            "action": "進一步比對，異常則更換 U319、U320 或 U321"
+          }
+        }
+      ]
+    }
+  }
+}
