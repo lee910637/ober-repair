@@ -85,10 +85,19 @@ body {
 
 /* ---------- Landing (歐伯維修 首頁) ---------- */
 .brand { text-align: center; margin: 12px 0 24px; }
-.brand-title {
-  font-size: 30px;
-  margin: 0 0 6px;
-  letter-spacing: 2px;
+.brand-logo-card {
+  display: inline-block;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px 20px 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  margin-bottom: 12px;
+}
+.brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
 }
 .brand-sub { color: var(--text-dim); font-size: 14px; margin: 0; }
 

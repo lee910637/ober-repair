@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const CACHE_NAME = `diag-17108a-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
@@ -9,9 +9,11 @@ const PRECACHE_URLS = [
   "./manifest.webmanifest",
   "./data/diagnosis-data.json",
   "./images/17108A-5-120.jpg",
+  "./images/ober-repair-logo.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",
+  "./icons/favicon-32.png",
 ];
 
 self.addEventListener("install", (event) => {

@@ -11,7 +11,8 @@
 <meta name="apple-mobile-web-app-title" content="歐伯維修" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-<link rel="icon" href="icons/icon-192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -31,7 +32,9 @@
 <template id="tpl-landing">
   <section class="landing">
     <div class="brand">
-      <h2 class="brand-title">歐伯維修</h2>
+      <div class="brand-logo-card">
+        <img class="brand-logo" src="images/ober-repair-logo.png" alt="歐伯維修 Ober-Repair" />
+      </div>
       <p class="brand-sub">選擇機種系列，開始查修</p>
     </div>
     <div id="seriesList" class="series-list"></div>

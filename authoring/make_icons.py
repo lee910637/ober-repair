@@ -1,38 +1,48 @@
-"""產生 PWA 安裝用的簡易圖示（無實際素材，先用色塊+文字代替）。"""
-from PIL import Image, ImageDraw, ImageFont
+"""
+用 Ober-Repair Logo.png（跟本script同一個資料夾）產生 PWA 安裝用圖示。
+只取上半部的六邊形圖標（不含下方「Chroma OBER-Repair」文字），
+裁切、置中、補白邊成正方形後，輸出各尺寸圖示。
+"""
+from PIL import Image, ImageChops
 
-BG = (31, 78, 95)       # 深藍綠，呼應手冊封面色調
-FG = (255, 255, 255)
+SRC_LOGO = "Ober-Repair Logo.png"
+FULL_LOGO_OUT = "../app/images/ober-repair-logo.png"  # 首頁用，完整版（含文字）
 
-def make(size, path, radius_ratio=0.22):
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    r = int(size * radius_ratio)
-    d.rounded_rectangle([0, 0, size - 1, size - 1], radius=r, fill=BG)
-    # 簡化的「波形/檢測」符號
-    cx, cy = size / 2, size / 2
-    w = size * 0.6
-    pts = [
-        (cx - w / 2, cy),
-        (cx - w / 6, cy),
-        (cx - w / 14, cy - w / 3),
-        (cx + w / 14, cy + w / 3),
-        (cx + w / 6, cy),
-        (cx + w / 2, cy),
-    ]
-    d.line(pts, fill=FG, width=max(2, size // 22), joint="curve")
-    try:
-        font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial Bold.ttf", int(size * 0.13))
-    except Exception:
-        font = ImageFont.load_default()
-    text = "17108A"
-    bbox = d.textbbox((0, 0), text, font=font)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    d.text((cx - tw / 2, size * 0.72 - th / 2), text, fill=FG, font=font)
+# 六邊形標誌在原圖裡的裁切框（用 ImageChops.difference 對白底分析得出，
+# 若之後換一張新 logo，需重新分析這個框）
+MARK_BBOX = (147, 0, 840, 780)
+PADDING_RATIO = 0.08  # 四周留白比例
+
+
+def load_mark():
+    im = Image.open(SRC_LOGO).convert("RGBA")
+    mark = im.crop(MARK_BBOX)
+    w, h = mark.size
+    side = int(max(w, h) * (1 + PADDING_RATIO * 2))
+    canvas = Image.new("RGBA", (side, side), (255, 255, 255, 255))
+    canvas.paste(mark, ((side - w) // 2, (side - h) // 2), mark)
+    return canvas
+
+
+def make(size, path, mark):
+    img = mark.resize((size, size), Image.LANCZOS)
     img.save(path)
     print("wrote", path, size)
 
 
-make(180, "../app/icons/apple-touch-icon.png")
-make(192, "../app/icons/icon-192.png")
-make(512, "../app/icons/icon-512.png")
+def main():
+    mark = load_mark()
+    make(180, "../app/icons/apple-touch-icon.png", mark)
+    make(192, "../app/icons/icon-192.png", mark)
+    make(512, "../app/icons/icon-512.png", mark)
+    make(32, "../app/icons/favicon-32.png", mark)
+
+    # 首頁品牌區用的完整版 logo（含文字），只是複製過去、稍微限制寬度即可
+    full = Image.open(SRC_LOGO).convert("RGBA")
+    full.thumbnail((700, 700 * full.height // full.width))
+    full.save(FULL_LOGO_OUT)
+    print("wrote", FULL_LOGO_OUT, full.size)
+
+
+if __name__ == "__main__":
+    main()
