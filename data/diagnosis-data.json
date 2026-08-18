@@ -1,32 +1,7 @@
 {
-  "series": [
-    {
-      "id": "A",
-      "name": "A系列"
-    },
-    {
-      "id": "N",
-      "name": "N系列"
-    },
-    {
-      "id": "E",
-      "name": "E系列"
-    }
-  ],
-  "models": [
-    {
-      "id": "17108A-5-120",
-      "name": "17108A-5-120 電池化成測試器",
-      "series": "A",
-      "image": "images/17108A-5-120.jpg",
-      "built": true,
-      "description": "電池化成測試器，120A 一體機。"
-    }
-  ],
   "faults": [
     {
       "id": "F_CALI",
-      "modelId": "17108A-5-120",
       "name": "Calibration Error 校正值異常",
       "keywords": [
         "校正值異常",
@@ -42,7 +17,6 @@
     },
     {
       "id": "F_OCP",
-      "modelId": "17108A-5-120",
       "name": "OCP／OVP 過電流過電壓保護",
       "keywords": [
         "OCP",
@@ -60,7 +34,6 @@
     },
     {
       "id": "F_OTP",
-      "modelId": "17108A-5-120",
       "name": "OTP 單機環溫過溫保護",
       "keywords": [
         "OTP",
@@ -76,7 +49,6 @@
     },
     {
       "id": "F_CONTACT",
-      "modelId": "17108A-5-120",
       "name": "接觸錯誤／感應異常保護",
       "keywords": [
         "接觸錯誤",
@@ -93,7 +65,6 @@
     },
     {
       "id": "F_FAN",
-      "modelId": "17108A-5-120",
       "name": "FAN 風扇異常保護",
       "keywords": [
         "Fan",
@@ -111,7 +82,6 @@
     },
     {
       "id": "F_NET",
-      "modelId": "17108A-5-120",
       "name": "網路通訊異常",
       "keywords": [
         "網路",
@@ -128,7 +98,6 @@
     },
     {
       "id": "F_SYSCFG",
-      "modelId": "17108A-5-120",
       "name": "System Config Error",
       "keywords": [
         "System Config",
@@ -145,7 +114,6 @@
     },
     {
       "id": "F_ADC",
-      "modelId": "17108A-5-120",
       "name": "ADC Error 讀值異常",
       "keywords": [
         "ADC",
@@ -162,7 +130,6 @@
     },
     {
       "id": "F_NOOUTPUT",
-      "modelId": "17108A-5-120",
       "name": "無輸出電壓，DVM無讀值",
       "keywords": [
         "無輸出電壓",
@@ -178,239 +145,6 @@
     }
   ],
   "nodes": {
-    "OCP_1": {
-      "id": "OCP_1",
-      "faultId": "F_OCP",
-      "prompt": "如尚未啟動電源即出現 OCP，先量測 OCP/OVP/Input_OVP/比較器/Ref voltage 週邊元件，確認是否都在合格範圍內。",
-      "check": {
-        "location": "OCP/OVP/Input_OVP/比較器/Ref voltage 週邊元件",
-        "method": "使用三用電錶量測 R726/R868、R724/R866、C710/C850、R744/R888、R745/R887、C708/C848 等週邊電阻電容",
-        "normal": "R726/R868=75KΩ±1%; R724/R866=100KΩ±1%; C710/C850=0.1uF±10%; R744/R888=10KΩ±1%; R745/R887=10KΩ±1%; C708/C848=1uF±10%",
-        "unit": "Ω/uF"
-      },
-      "options": [
-        {
-          "label": "有元件數值超出合格範圍",
-          "next": {
-            "type": "end",
-            "conclusion": "更換超出公差的週邊元件（對照規格表）",
-            "action": "依規格表更換異常的電阻/電容"
-          }
-        },
-        {
-          "label": "全部元件數值正常",
-          "next": {
-            "type": "node",
-            "id": "OCP_2"
-          }
-        }
-      ]
-    },
-    "OCP_2": {
-      "id": "OCP_2",
-      "faultId": "F_OCP",
-      "prompt": "量測 U602 Pin5~Pin7 電壓。正常：Pin6=3.33V、Pin5=2.5V、Pin7=0V；OCP觸發時：Pin6≈0.7V、Pin5=2.5V、Pin7=3.33V。量測結果符合上述哪一種？",
-      "check": {
-        "location": "U602 Pin5~Pin7",
-        "method": "以 DMM 量測 U602 Pin5、Pin6、Pin7 電壓",
-        "normal": "正常: Pin6=3.33V,Pin5=2.5V,Pin7=0V；OCP觸發: Pin6≈0.7V,Pin5=2.5V,Pin7=3.33V",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "符合正常或OCP觸發任一種模式",
-          "next": {
-            "type": "node",
-            "id": "OCP_4"
-          }
-        },
-        {
-          "label": "都不符合(讀值異常/中間值)",
-          "next": {
-            "type": "node",
-            "id": "OCP_3"
-          }
-        }
-      ]
-    },
-    "OCP_3": {
-      "id": "OCP_3",
-      "faultId": "F_OCP",
-      "prompt": "量 R603 右邊是否為10V；R605 右邊是否為5V。",
-      "check": {
-        "location": "R603 / R605",
-        "method": "量測 R603 右邊電壓、R605 右邊電壓",
-        "normal": "R603右邊應為10V；R605右邊應為5V",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "皆正常(10V/5V)",
-          "next": {
-            "type": "end",
-            "conclusion": "邏輯IC(LM393)異常，造成Pin1輸出異常",
-            "action": "更換 LM393"
-          }
-        },
-        {
-          "label": "任一不正常",
-          "next": {
-            "type": "end",
-            "conclusion": "PCB layout斷路",
-            "action": "依手冊跳線：10V點跳線到C611上方、5V點跳線到R619(下)、Pin5跳線到C540"
-          }
-        }
-      ]
-    },
-    "OCP_4": {
-      "id": "OCP_4",
-      "faultId": "F_OCP",
-      "prompt": "量測 D602、D607、D608(input_OCP_bar / Fault_02)。正常應為HIGH，<1V視為LOW(異常)。D608對應Input OVP路徑，D602/D607對應OCP/OVP路徑。",
-      "check": {
-        "location": "D602 / D607 / D608 (input_OCP_bar / Fault_02)",
-        "method": "以 DMM 量測二極體兩端電壓",
-        "normal": "正常應為 HIGH；電壓 <1V 視為 LOW(異常)",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "D608 為 LOW",
-          "next": {
-            "type": "node",
-            "id": "OCP_5"
-          }
-        },
-        {
-          "label": "D602 或 D607 為 LOW",
-          "next": {
-            "type": "node",
-            "id": "OCP_6"
-          }
-        },
-        {
-          "label": "皆為 HIGH(正常)",
-          "next": {
-            "type": "end",
-            "conclusion": "保護迴路偵測本身正常，異常另有原因",
-            "action": "建議會同資深工程師覆核控制IC與命令路徑，必要時更換數位板"
-          }
-        }
-      ]
-    },
-    "OCP_5": {
-      "id": "OCP_5",
-      "faultId": "F_OCP",
-      "prompt": "D608為LOW，代表可能跳 Input OVP。請先回想：OCP是否只在『放電』時才觸發？並量測 U602 Pin1 對 Pin4(GND) 是否為HIGH，以及 R620 阻抗是否為18KΩ。",
-      "check": {
-        "location": "U602 Pin1 對 Pin4(GND) / R620",
-        "method": "量測 U602 Pin1 對 GND 電壓；量測 R620 阻抗",
-        "normal": "Pin1為HIGH代表Input OVP；R620應為15KΩ±0.1%",
-        "unit": "V/Ω"
-      },
-      "options": [
-        {
-          "label": "放電時才觸發 且 Pin1為HIGH",
-          "next": {
-            "type": "end",
-            "conclusion": "確認為 Input OVP",
-            "action": "檢查R620是否18KΩ±0.1%，阻抗異常則更換R620；阻抗正常則為Input OVP偵測電路其他元件異常，需逐一排查"
-          }
-        },
-        {
-          "label": "非上述情況",
-          "next": {
-            "type": "end",
-            "conclusion": "非典型Input OVP案例",
-            "action": "建議會同資深工程師覆核電路，勿逕自更換零件"
-          }
-        }
-      ]
-    },
-    "OCP_6": {
-      "id": "OCP_6",
-      "faultId": "F_OCP",
-      "prompt": "D602或D607為LOW，量測 R816下(或R791下) 是否同為LOW。",
-      "check": {
-        "location": "R816 下方 / R791 下方",
-        "method": "量測 R816(或R791) 下方電壓",
-        "normal": "正常應為 HIGH，LOW 代表控制IC(8450)跳OCP/OV",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "R816(或R791)下方為LOW",
-          "next": {
-            "type": "node",
-            "id": "OCP_7"
-          }
-        },
-        {
-          "label": "為HIGH(不同)",
-          "next": {
-            "type": "end",
-            "conclusion": "控制IC(8450)未跳保護",
-            "action": "建議另尋訊號路徑異常點，可能為量測電路本身異常"
-          }
-        }
-      ]
-    },
-    "OCP_7": {
-      "id": "OCP_7",
-      "faultId": "F_OCP",
-      "prompt": "R816(或R791)為LOW，代表控制IC 8450 跳 OCP/OV。量測 C849(OVP)/C850(OCP)（或另一相 C709(OVP)/C710(OCP)）電壓是否超過1.25V。",
-      "check": {
-        "location": "C849(OVP) / C850(OCP) / C709(OVP) / C710(OCP)",
-        "method": "量測電容電壓",
-        "normal": "電壓 >1.25V 代表該相觸發對應保護",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "C849(或C709) 超過1.25V (OVP)",
-          "next": {
-            "type": "node",
-            "id": "OCP_8"
-          }
-        },
-        {
-          "label": "C850(或C710) 超過1.25V (OCP)",
-          "next": {
-            "type": "end",
-            "conclusion": "該相觸發 OCP 過電流保護",
-            "action": "檢查功率級電流迴路與MOSFET/電流取樣電路，比對更換相關功率元件"
-          }
-        }
-      ]
-    },
-    "OCP_8": {
-      "id": "OCP_8",
-      "faultId": "F_OCP",
-      "prompt": "確認為OVP，需量測實際觸發電壓：C849超過1.25V則量R890與R891下方壓差；C709超過1.25V則量R747與R748下方壓差，此壓差應等於電池電壓。",
-      "check": {
-        "location": "R890/R891 下方壓差 / R747/R748 下方壓差",
-        "method": "量測電阻下方壓差",
-        "normal": "應等於電池電壓",
-        "unit": "V"
-      },
-      "options": [
-        {
-          "label": "壓差 = 電池電壓(符合預期)",
-          "next": {
-            "type": "end",
-            "conclusion": "該相觸發 OVP 過電壓保護，屬正常保護動作",
-            "action": "請確認電池/測試條件是否超出設備輸出電壓上限(5.8V)，非硬體故障"
-          }
-        },
-        {
-          "label": "壓差明顯異常(不等於電池電壓)",
-          "next": {
-            "type": "end",
-            "conclusion": "電壓量測迴路(Vmo)異常",
-            "action": "更換 U702/U805 或相關量測迴路元件"
-          }
-        }
-      ]
-    },
     "FAN_1": {
       "id": "FAN_1",
       "faultId": "F_FAN",
@@ -857,6 +591,287 @@
             "type": "end",
             "conclusion": "往 U319/U320/U321 查修",
             "action": "進一步比對，異常則更換 U319、U320 或 U321"
+          }
+        }
+      ]
+    },
+    "OCP_1": {
+      "id": "OCP_1",
+      "faultId": "F_OCP",
+      "prompt": "1. 重新開關電，並使用小軟體確認是否恢復正常。",
+      "check": {
+        "location": "電源重開機(小軟體)",
+        "method": "重新開關電源，使用小軟體確認機台是否恢復正常",
+        "normal": "無異常",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "end",
+            "conclusion": "解決",
+            "action": "重新進行其它功能測試"
+          }
+        },
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "node",
+            "id": "OCP_2"
+          }
+        }
+      ]
+    },
+    "OCP_2": {
+      "id": "OCP_2",
+      "faultId": "F_OCP",
+      "prompt": "2. 量測 R726 與 R868，確認是否符合 75KΩ ±1%。",
+      "check": {
+        "location": "R726 / R868",
+        "method": "使用三用電錶量測 R726、R868 阻值",
+        "normal": "75KΩ±1%",
+        "unit": "Ω"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "R726/R868 阻值異常",
+            "action": "更換 R726/R868 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_3"
+          }
+        }
+      ]
+    },
+    "OCP_3": {
+      "id": "OCP_3",
+      "faultId": "F_OCP",
+      "prompt": "3. 量測 R724 與 R866，確認是否符合 100KΩ ±1%。",
+      "check": {
+        "location": "R724 / R866",
+        "method": "使用三用電錶量測 R724、R866 阻值",
+        "normal": "100KΩ±1%",
+        "unit": "Ω"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "R724/R866 阻值異常",
+            "action": "更換 R724/R866 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_4"
+          }
+        }
+      ]
+    },
+    "OCP_4": {
+      "id": "OCP_4",
+      "faultId": "F_OCP",
+      "prompt": "4. 量測 C710 與 C850，確認是否符合 0.1uF ±10%。",
+      "check": {
+        "location": "C710 / C850",
+        "method": "使用三用電錶量測 C710、C850 容值",
+        "normal": "0.1uF±10%",
+        "unit": "uF"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "C710/C850 容值異常",
+            "action": "更換 C710/C850 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_5"
+          }
+        }
+      ]
+    },
+    "OCP_5": {
+      "id": "OCP_5",
+      "faultId": "F_OCP",
+      "prompt": "5. 量測 R744 與 R888，確認是否符合 10KΩ ±1%。",
+      "check": {
+        "location": "R744 / R888",
+        "method": "使用三用電錶量測 R744、R888 阻值",
+        "normal": "10KΩ±1%",
+        "unit": "Ω"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "R744/R888 阻值異常",
+            "action": "更換 R744/R888 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_6"
+          }
+        }
+      ]
+    },
+    "OCP_6": {
+      "id": "OCP_6",
+      "faultId": "F_OCP",
+      "prompt": "6. 量測 R745 與 R887，確認是否符合 10KΩ ±1%。",
+      "check": {
+        "location": "R745 / R887",
+        "method": "使用三用電錶量測 R745、R887 阻值",
+        "normal": "10KΩ±1%",
+        "unit": "Ω"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "R745/R887 阻值異常",
+            "action": "更換 R745/R887 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_7"
+          }
+        }
+      ]
+    },
+    "OCP_7": {
+      "id": "OCP_7",
+      "faultId": "F_OCP",
+      "prompt": "7. 量測 C708 與 C848，確認是否符合 1uF ±10%。",
+      "check": {
+        "location": "C708 / C848",
+        "method": "使用三用電錶量測 C708、C848 容值",
+        "normal": "1uF±10%",
+        "unit": "uF"
+      },
+      "options": [
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "C708/C848 容值異常",
+            "action": "更換 C708/C848 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "node",
+            "id": "OCP_8"
+          }
+        }
+      ]
+    },
+    "OCP_8": {
+      "id": "OCP_8",
+      "faultId": "F_OCP",
+      "prompt": "8. 量測 R603 右邊電壓是否為 10V、R605 右邊電壓是否為 5V。",
+      "check": {
+        "location": "R603 / R605",
+        "method": "量測 R603 右邊電壓、R605 右邊電壓",
+        "normal": "R603右邊應為10V；R605右邊應為5V",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "end",
+            "conclusion": "U602 疑似異常",
+            "action": "更換 U602 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "node",
+            "id": "OCP_9"
+          }
+        }
+      ]
+    },
+    "OCP_9": {
+      "id": "OCP_9",
+      "faultId": "F_OCP",
+      "prompt": "9. 確認 layout 是否斷路：將 10V 的量測點跳線到 C611 上方；5V 的量測點跳線到 R619 下方；Pin5 跳線到 C540。",
+      "check": {
+        "location": "R603/R605 週邊 PCB layout",
+        "method": "以電錶輔助跳線：10V 點跳線到 C611 上方；5V 點跳線到 R619 下方；Pin5 跳線到 C540",
+        "normal": "跳線後功能恢復正常視為 layout 斷路",
+        "unit": "-"
+      },
+      "options": [
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "end",
+            "conclusion": "PCB layout 斷路",
+            "action": "依上述方式跳線後進行其它功能測試"
+          }
+        },
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "node",
+            "id": "OCP_10"
+          }
+        }
+      ]
+    },
+    "OCP_10": {
+      "id": "OCP_10",
+      "faultId": "F_OCP",
+      "prompt": "10. 量測 D602/D607/D608，確認是否為 Low(異常)。",
+      "check": {
+        "location": "D602 / D607 / D608 (input_OCP_bar / Fault_02)",
+        "method": "以 DMM 量測二極體兩端電壓",
+        "normal": "正常應為 HIGH；電壓 <1V 視為 LOW(異常)",
+        "unit": "V"
+      },
+      "options": [
+        {
+          "label": "是 [PASS]",
+          "next": {
+            "type": "end",
+            "conclusion": "D602/D607/D608 異常",
+            "action": "更換 D602/D607/D608 後進行其它功能測試"
+          }
+        },
+        {
+          "label": "否 [FAIL]",
+          "next": {
+            "type": "end",
+            "conclusion": "保護迴路偵測正常，異常原因未定位",
+            "action": "聯繫高階技術支援／原廠技師維修"
           }
         }
       ]
