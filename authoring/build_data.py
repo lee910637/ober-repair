@@ -11,6 +11,14 @@ import openpyxl
 SRC = "17108A-5-120_診斷資料.xlsx"
 OUT = "../data/diagnosis-data.json"
 
+# 首頁系列分類，非來自 Excel（Excel「機型」表僅列出已建置機型，
+# 但首頁需固定顯示 A/N/E 三個系列卡片，即使系列下尚無機型）。
+SERIES = [
+    {"id": "A", "name": "A系列"},
+    {"id": "N", "name": "N系列"},
+    {"id": "E", "name": "E系列"},
+]
+
 
 def sheet_rows(ws):
     rows = list(ws.iter_rows(values_only=True))
@@ -41,10 +49,22 @@ def main():
 
     checks_by_id = {c["Check_ID"]: c for c in sheet_rows(wb["確認資訊"])}
 
+    models = []
+    for m in sheet_rows(wb["機型"]):
+        models.append({
+            "id": m["Model_ID"],
+            "name": m["型號名稱"],
+            "series": m["系列"],
+            "image": m["圖片"],
+            "built": str(m["是否已建置"]).strip() == "是",
+            "description": m["說明"],
+        })
+
     faults = []
     for f in sheet_rows(wb["異常資訊"]):
         faults.append({
             "id": f["Fault_ID"],
+            "modelId": f["Model_ID"],
             "name": f["名稱"],
             "keywords": [k.strip() for k in str(f["關鍵字"]).split(",") if k.strip()],
             "category": f["類別"],
@@ -80,10 +100,10 @@ def main():
             "options": options,
         }
 
-    data = {"faults": faults, "nodes": nodes}
+    data = {"series": SERIES, "models": models, "faults": faults, "nodes": nodes}
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(data, fh, ensure_ascii=False, indent=2)
-    print(f"已產生 {OUT}：{len(faults)} 個故障項目、{len(nodes)} 個決策節點")
+    print(f"已產生 {OUT}：{len(models)} 個機型、{len(faults)} 個故障項目、{len(nodes)} 個決策節點")
 
 
 if __name__ == "__main__":
