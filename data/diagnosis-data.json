@@ -186,7 +186,8 @@
         "location": "風扇葉片/入風口",
         "method": "目視+手動檢查是否有異物、積塵造成堵轉",
         "normal": "無異物、無堵轉",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -214,7 +215,8 @@
         "location": "風扇本體",
         "method": "通電測試風扇是否正常運轉(有無異音、轉速是否明顯不足)",
         "normal": "運轉順暢、無異音",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -242,7 +244,8 @@
         "location": "風扇線材(FT板) / 風扇電源(S板→FT板)",
         "method": "量測風扇電源迴路電壓",
         "normal": "供電正常，無斷路或電壓異常",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -271,7 +274,8 @@
         "location": "MOS Relay 前端",
         "method": "量測 MOS Relay 前端是否有電壓",
         "normal": "依機種規格應有電壓",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -298,7 +302,8 @@
         "location": "MOS Relay G-S 腳",
         "method": "量測 MOS Relay Gate-Source 電壓",
         "normal": "依驅動規格，正常應能驅動導通",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -327,7 +332,8 @@
         "location": "MOS G-S 腳",
         "method": "以示波器量測 MOS Gate-Source 是否有 PWM 波形",
         "normal": "應有連續 PWM 波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -355,7 +361,8 @@
         "location": "U708/U803 PIN15 & PIN10",
         "method": "示波器量測 PWM 波形",
         "normal": "應有 PWM 波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -383,7 +390,8 @@
         "location": "U708/U803 PIN1",
         "method": "示波器量測 PWM 波形",
         "normal": "應有 PWM 波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -411,7 +419,8 @@
         "location": "U707/U802 PIN6",
         "method": "示波器量測波形",
         "normal": "應有波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -439,7 +448,8 @@
         "location": "U707/U802 PIN5",
         "method": "示波器量測波形",
         "normal": "應有波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -467,7 +477,8 @@
         "location": "U706/U801 PIN2",
         "method": "示波器量測波形",
         "normal": "應有波形",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -495,7 +506,8 @@
         "location": "U706/U801 PIN5",
         "method": "DMM量測電壓",
         "normal": "應為 5V",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -523,7 +535,8 @@
         "location": "PIN9 / D703&D803負端 / U705&U804 G腳",
         "method": "DMM量測各點電壓",
         "normal": "U705/U804 G腳應為 5V",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -551,7 +564,8 @@
         "location": "U702/U805 PIN39/40/44/49/60、C766",
         "method": "DMM量測各腳位電壓",
         "normal": "依機種規格，各點電壓應正常",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -579,7 +593,8 @@
         "location": "U1001 PIN1 / R1007",
         "method": "DMM量測電壓",
         "normal": "依機種規格應正常",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -607,7 +622,8 @@
         "location": "U306 / U307 / U312",
         "method": "DMM量測各IC電壓",
         "normal": "依機種規格應正常",
-        "unit": "V"
+        "unit": "V",
+        "photo": null
       },
       "options": [
         {
@@ -636,7 +652,8 @@
         "location": "電源重開機(小軟體)",
         "method": "重新開關電源，使用小軟體確認機台是否恢復正常",
         "normal": "無異常",
-        "unit": "-"
+        "unit": "-",
+        "photo": null
       },
       "options": [
         {
@@ -664,7 +681,8 @@
         "location": "R726 / R868",
         "method": "使用三用電錶量測 R726、R868 阻值",
         "normal": "75KΩ±1%",
-        "unit": "Ω"
+        "unit": "Ω",
+        "photo": null
       },
       "options": [
         {
@@ -692,7 +710,8 @@
         "location": "R724 / R866",
         "method": "使用三用電錶量測 R724、R866 阻值",
         "normal": "100KΩ±1%",
-        "unit": "Ω"
+        "unit": "Ω",
+        "photo": null
       },
       "options": [
         {
@@ -720,7 +739,8 @@
         "location": "C710 / C850",
         "method": "使用三用電錶量測 C710、C850 容值",
         "normal": "0.1uF±10%",
-        "unit": "uF"
+        "unit": "uF",
+        "photo": null
       },
       "options": [
         {
@@ -748,7 +768,8 @@
         "location": "R744 / R888",
         "method": "使用三用電錶量測 R744、R888 阻值",
         "normal": "10KΩ±1%",
-        "unit": "Ω"
+        "unit": "Ω",
+        "photo": null
       },
       "options": [
         {
@@ -776,7 +797,8 @@
         "location": "R745 / R887",
         "method": "使用三用電錶量測 R745、R887 阻值",
         "normal": "10KΩ±1%",
-        "unit": "Ω"
+        "unit": "Ω",
+        "photo": null
       },
       "options": [
         {
@@ -804,7 +826,8 @@
         "location": "C708 / C848",
         "method": "使用三用電錶量測 C708、C848 容值",
         "normal": "1uF±10%",
-        "unit": "uF"
+        "unit": "uF",
+        "photo": null
       },
       "options": [
         {
@@ -832,7 +855,8 @@
         "location": "R603 / R605",
         "method": "量測 R603 右邊電壓、R605 右邊電壓",
         "normal": "R603右邊應為10V；R605右邊應為5V",
-        "unit": "V"
+        "unit": "V",
+        "photo": "images/ocp-8.png"
       },
       "options": [
         {
@@ -860,7 +884,8 @@
         "location": "R603/R605 週邊 PCB layout",
         "method": "以電錶輔助跳線：10V 點跳線到 C611 上方；5V 點跳線到 R619 下方；Pin5 跳線到 C540",
         "normal": "跳線後功能恢復正常視為 layout 斷路",
-        "unit": "-"
+        "unit": "-",
+        "photo": "images/ocp-9.png"
       },
       "options": [
         {
@@ -888,7 +913,8 @@
         "location": "D602 / D607 / D608 (input_OCP_bar / Fault_02)",
         "method": "以 DMM 量測二極體兩端電壓",
         "normal": "正常應為 HIGH；電壓 <1V 視為 LOW(異常)",
-        "unit": "V"
+        "unit": "V",
+        "photo": "images/ocp-10.png"
       },
       "options": [
         {

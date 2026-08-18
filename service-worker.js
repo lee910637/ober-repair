@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const CACHE_NAME = `diag-17108a-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
@@ -10,6 +10,9 @@ const PRECACHE_URLS = [
   "./data/diagnosis-data.json",
   "./images/17108A-5-120.jpg",
   "./images/ober-repair-logo.png",
+  "./images/ocp-8.png",
+  "./images/ocp-9.png",
+  "./images/ocp-10.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/apple-touch-icon.png",

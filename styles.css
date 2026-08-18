@@ -272,6 +272,13 @@ body {
   font-weight: 600;
 }
 .check-location, .check-method, .check-normal { color: var(--text); line-height: 1.5; }
+.check-photo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
 
 .prompt {
   font-size: 17px;

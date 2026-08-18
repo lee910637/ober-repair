@@ -96,6 +96,7 @@ def main():
                 "method": check.get("檢查方法", ""),
                 "normal": check.get("正常條件/標準值", ""),
                 "unit": check.get("單位", ""),
+                "photo": check.get("量測位置照片", "") or None,
             } if check else None,
             "options": options,
         }

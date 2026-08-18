@@ -277,6 +277,11 @@
       $(".check-method", frag).textContent = node.check.method || "—";
       const unit = node.check.unit ? ` (${node.check.unit})` : "";
       $(".check-normal", frag).textContent = (node.check.normal || "—") + unit;
+      const photo = $(".check-photo", frag);
+      if (node.check.photo) {
+        photo.src = node.check.photo;
+        photo.hidden = false;
+      }
     }
     $(".prompt", frag).textContent = node.prompt;
 
